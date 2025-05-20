@@ -1,0 +1,2 @@
+/Users/fatemakoli/bTalk/android/app/.cxx/RelWithDebInfo/3fh1f205/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/fatemakoli/bTalk/android/app/.cxx/RelWithDebInfo/3fh1f205/armeabi-v7a/CMakeFiles/rebuild_cache.dir
