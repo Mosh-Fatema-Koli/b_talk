@@ -8,7 +8,7 @@ const String uri = "https://apihomechef.antopolis.xyz/api/admin/";
 class AppColors {
 
   static const Color backgroundColor = Colors.white;
-  static const Color primaryColor = Color(0xff9572EF);
+  static const Color primaryColor =  Color(0xFF05265A);
 
 
   static const Color colorDark = Colors.black;

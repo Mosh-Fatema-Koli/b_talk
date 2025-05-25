@@ -1,71 +1,365 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+import '../common_Controller/mis_controller.dart';
 
 
+class API {
 
-class ApiRequestClient extends GetxService{
+  final Dio _dio = Dio();
+  final miscontroller=MiscController();
 
-  static var client = http.Client();
+  API() {
+    _dio.options.baseUrl = "http://attendance.mrshakil.com/api";
+    _dio.interceptors.add(PrettyDioLogger());
+  }
 
-  static const String serverError = 'Server Error';
-  static const String noInternet = 'No Internet';
-  static const int timeoutInSeconds = 30;
+  Dio get sendRequest => _dio;
 
-
-  static Future<Response> postApiRequest(String url, String? body, {Map<String, String>? headers}) async {
-
-    var mainHeaders = {
+  Future<Response> apiCore({required String address, required String method, String? token, dynamic jsonData,}) async {
+    Map<String, String> headers = {
       'Content-Type': 'application/json',
-      'Authorization':""
-      //'Bearer ${ServiceController.userData?.Token}'
     };
-    var urls = url;
+
+    if (token != null && token.isNotEmpty) {
+      //headers['Authorization'] = 'Bearer $token';
+      headers['Authorization'] = 'Token $token';
+    }
+
+    _dio.options.headers = headers;
+    _dio.options.method = method;
+    print(address);
+
     try {
-      http.Response response = await client
-          .post(
-        Uri.parse(urls),
-        body: body,
-        headers: headers ?? mainHeaders,
-      )
-          .timeout(const Duration(seconds: timeoutInSeconds));
-      return handleResponse(response, url);
-    } on SocketException {
-      return const Response(statusCode: 0, statusText: noInternet);
+      return await _dio.request(address, data: jsonData);
     } catch (e) {
-      return const Response(statusCode: 1, statusText: serverError);
+      rethrow;
     }
   }
 
-  static Response handleResponse(http.Response response, String uri) {
+  /// **Login API**
+  login({String? endpoint, required String username, required String password,}) async {
+    final String httpAddress = '/login/';
+    var loginRequest = {
+      "username": username,
+      "password": password,
+    };
 
-    Response response0 = Response(
-      body: response.body ,
-      request: Request(
-          headers: response.request!.headers,
-          method: response.request!.method,
-          url: response.request!.url),
-      headers: response.headers,
-      statusCode: response.statusCode,
-      statusText: response.reasonPhrase,
-    );
-    if (response0.statusCode == 200 ) {
-      response0 = Response(
-        statusCode: response0.statusCode,
-        body: response0.body,
+    var jsonRequest = json.encode(loginRequest);
+    print(jsonRequest);
+
+    var loginResponse = {
+      "Success": false,
+      "Message": "Login failed, please try again",
+      "Packet": {},
+    };
+    var message = '';
+
+    try {
+      var apiResponse = await apiCore(address: httpAddress, method: 'POST', jsonData: jsonRequest,);
+      print(apiResponse.statusCode );
+      if (apiResponse.statusCode == 200) {
+        Map response = apiResponse.data;
+        if (response.isNotEmpty) {
+          message = 'Login Successful';
+          loginResponse['Success'] = true;
+          loginResponse['Message'] = "Login Successfully";
+          loginResponse['Packet'] = response["user"];
+          return json.encode(loginResponse);
+        } else {
+          loginResponse['Success'] = false;
+          loginResponse['Message'] = message;
+          loginResponse['Packet'] = '';
+          return json.encode(loginResponse);
+        }
+      }
+      else {
+        loginResponse['Success'] = false;
+        if (apiResponse.statusCode == 400) {
+          message = 'Bad Request';
+        } else if (apiResponse.statusCode == 401) {
+          message = 'Unauthorized';
+        } else if (apiResponse.statusCode == 403) {
+          message = 'Forbidden';
+        } else if (apiResponse.statusCode == 404) {
+          message = 'Not Found';
+        } else if (apiResponse.statusCode == 500) {
+          message = 'Internal Server Error';
+        } else if (apiResponse.statusCode == 504) {
+          message = 'Gateway Timeout';
+        } else {
+          message = 'Unauthorized';
+        }
+        loginResponse['Message'] = message;
+        loginResponse['Packet'] = '';
+        return json.encode(loginResponse);
+      }
+    } on SocketException {
+      return json.encode(loginResponse);
+    }  on DioException {
+      return json.encode(loginResponse);
+    } catch (ex) {
+      loginResponse['Success'] = false;
+      loginResponse['Message'] = 'API request failed : $ex';
+      loginResponse['Packet'] = '';
+      return json.encode(loginResponse);
+    }
+  }
+
+  /// **Fetch List Data (GET Request)**
+  fetchListData({required String endpoint, String? token,}) async {
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "PacketList": [],
+    };
+
+    try {
+      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+
+      if (apiResponse.statusCode == 200) {
+        var response = apiResponse.data;
+        bool success = true;
+        fetchResponse['Success'] = success;
+        var packetList = response;
+        if (packetList.isNotEmpty) {
+          fetchResponse['Message'] = 'Data fetched successfully';
+          fetchResponse['PacketList'] = packetList;
+        }
+        return json.encode(fetchResponse);
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse?.statusCode);
+        return json.encode(fetchResponse);
+      }
+    } on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
+    }
+    return json.encode(fetchResponse);
+  }
+
+  /// **Fetch Data (GET Request)**
+  fetchData({required String endpoint, String? token,}) async {
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "Packet": {},
+    };
+    try {
+      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+
+      if (apiResponse.statusCode == 200) {
+        var response = apiResponse.data;
+
+        bool success = true;
+        fetchResponse['Success'] = success;
+        var packetList = response;
+        if (packetList.isNotEmpty) {
+          fetchResponse['Message'] = 'Data fetched successfully';
+          fetchResponse['PacketList'] = packetList;
+        }
+        return json.encode(fetchResponse);
+
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
+        return json.encode(fetchResponse);
+      }
+    } on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
+    }
+    return json.encode(fetchResponse);
+  }
+
+  /// **Post Data (POST Request)**
+  postData({
+    required String endpoint,
+    required dynamic data, // 🔥 Accepts both Map<String, dynamic> and FormData
+    String? token,
+  }) async {
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "Packet": {},
+    };
+
+    try {
+      // ✅ Pass `data` directly, it can now handle FormData or JSON
+      Response apiResponse = await apiCore(
+        address: endpoint,
+        method: 'POST',
+        token: token??"",
+        jsonData: data, // 🔥 data can be either Map<String, dynamic> or FormData
       );
-    } else if (response0.statusCode != 200 && response0.body == null) {
-      response0 = const Response(statusCode: 0, statusText: noInternet);
-    } else {
-      response0 = const Response(statusCode: 1, statusText: serverError);
+
+      if (apiResponse.statusCode == 200 ||apiResponse.statusCode == 201) {
+        var response = apiResponse.data;
+        fetchResponse['Success'] = true;
+        fetchResponse['Message'] = 'Request added successfully';
+        fetchResponse['Packet'] = response;
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
+      }
+    } on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException catch (e) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed: ${e.message}';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
     }
-    debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
-    return response0;
+
+    return json.encode(fetchResponse);
+  }
+
+  /// **Update Data (PUT Request)**
+  updateData({required String endpoint, required dynamic data, String? token,}) async {
+
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "Packet": {},
+    };
+
+    try {
+      Response? apiResponse = await apiCore(
+        address: endpoint,
+        method: 'PUT',
+        token: token,
+        jsonData: data,
+      );
+
+      if (apiResponse.statusCode == 200 ||apiResponse.statusCode == 201) {
+        var response = apiResponse.data;
+        fetchResponse['Success'] = true;
+        fetchResponse['Message'] = 'Request added successfully';
+        fetchResponse['Packet'] = response;
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
+      }
+    }  on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException catch (e) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed: ${e.message}';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
+    }
+
+    return json.encode(fetchResponse);
+  }
+
+
+  /// **Delete Data (DELETE Request)**
+  deleteData({required String endpoint, String? token,}) async {
+
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "Packet": {},
+    };
+
+    try {
+      Response? apiResponse = await apiCore(
+        address: endpoint,
+        method: 'DELETE',
+        token: token,
+      );
+
+      if (apiResponse.statusCode == 200 ||apiResponse.statusCode == 201) {
+        var response = apiResponse.data;
+        fetchResponse['Success'] = true;
+        fetchResponse['Message'] = 'Request added successfully';
+        fetchResponse['Packet'] = response;
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
+      }
+    }  on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException catch (e) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed: ${e.message}';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
+    }
+
+    return json.encode(fetchResponse);
+  }
+
+  logout({required String endpoint, String? token,}) async {
+    var fetchResponse = {
+      "Success": false,
+      "Message": "",
+      "Packet": {},
+    };
+    try {
+      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+
+      if (apiResponse.statusCode == 200) {
+        Map<String, dynamic> response = apiResponse.data;
+        bool success = true;
+        fetchResponse['Success'] = success;
+        if (success) {
+          return json.encode(fetchResponse);
+        }
+      } else {
+        fetchResponse['Success'] = false;
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
+        return json.encode(fetchResponse);
+      }
+    } on SocketException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'No internet connection';
+    } on DioException {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'Request failed';
+    } catch (ex) {
+      fetchResponse['Success'] = false;
+      fetchResponse['Message'] = 'API request failed: $ex';
+    }
+    return json.encode(fetchResponse);
   }
 
 
 
+  /// **Helper Method for HTTP Error Messages**
+  String _getHttpErrorMessage(int? statusCode) {
+    switch (statusCode) {
+      case 400: return 'Bad Request';
+      case 401: return 'Unauthorized';
+      case 403: return 'Forbidden';
+      case 404: return 'Not Found';
+      case 500: return 'Internal Server Error';
+      case 504: return 'Gateway Timeout';
+      default: return 'Unknown Error';
+    }
+  }
 
 }
+
+
