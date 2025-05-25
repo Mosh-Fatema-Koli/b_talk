@@ -71,7 +71,7 @@ class LogINPage extends StatelessWidget {
                    if (phoneController.text.isNotEmpty && passwordController.text.isNotEmpty) {
                      Get.to(NavbarPage());
                    } else {
-                     _miscController.toast(msg: 'Please enter valid username and password',position: ToastGravity.TOP);
+                     _miscController.toast(msg: 'Please enter valid phone number and password',position: ToastGravity.BOTTOM);
                    }
 
 
