@@ -1,10 +1,16 @@
 
+import 'package:btalk/view/page/bottom_Nav_Bar/navBar.dart';
 import 'package:btalk/view/page/intro/intro.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../api_client/constant.dart';
+import '../../../../common_Controller/mis_controller.dart';
+import '../../auth/controller/login_controller.dart';
 class SplashController extends GetxController {
 
-
-
+  final _miscController = MiscController();
+  final logInController = Get.put(LoginController());
   RxBool isLoading = false.obs;
 
   @override
@@ -16,42 +22,31 @@ class SplashController extends GetxController {
   jumpPage() async {
 
     Future.delayed(const Duration(seconds: 2), () async {
-      Get.offAll(const IntroPage());
-      // var isFirstTime = await PrefsHelper.getString(ShareprefSave.isFirstTime);
-      // var token = await PrefsHelper.getString(
-      //   ShareprefSave.token,
-      // );
-      // var refToken = await PrefsHelper.getString(
-      //   ShareprefSave.refToken,
-      // );
-      //
-      // if (isFirstTime.isEmpty && token.isEmpty && refToken.isEmpty) {
-      //   print("1st");
-      //   Get.offAll(const OnboardPage());
-      // } else if (token.isEmpty && refToken.isEmpty) {
-      //   print("2nd");
-      //   Get.offAll(LoginScreen());
-      // } else {
-      //   print("3rd");
-      //   print(await PrefsHelper.getString(
-      //     ShareprefSave.isFirstTime,
-      //   ));
-      //   print(await PrefsHelper.getString(
-      //     ShareprefSave.token,
-      //   ));
-      //   print(await PrefsHelper.getString(
-      //     ShareprefSave.refToken,
-      //   ));
-      //
-      //   ProfileController profileController = Get.put(ProfileController());
-      //   await profileController.fetchProfile();
-      //   Get.toNamed(homeScreen);
-      //   CartData _cartDataController = Get.put(CartData());
-      //   _cartDataController.getSavedata();
+      SharedPreferences preference = await _miscController.pref();
+      String? Phone = await preference.get(Constant.userPhoneNo).toString();
+      String? pass = await preference.get(Constant.password).toString();
+      String? token = await preference.get(Constant.token).toString();
+
+
+      if (token.isNotEmpty) {
+        logInController.login(username: Phone,
+          password: pass,
+          isOnlineApp: true,
+          isFromSplash: true,
+          onLoginResult: (isSuccess, message) {
+            isSuccess==false? Get.off(IntroPage()):Get.off(NavbarPage());
+          },);
+      } else {
+        print("2nd");
+        Get.offAll(IntroPage());
       }
-    );
+    });
   }
 
 
 
-}
+  }
+
+
+
+

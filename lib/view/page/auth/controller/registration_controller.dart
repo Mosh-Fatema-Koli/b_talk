@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../api_client/ApiController.dart';
@@ -17,49 +18,67 @@ class RegistrationController extends GetxController{
   var isLoading = false.obs;
 
   //region Reg API
-  Future registration({required String username, required String password, required bool isOnlineApp, required bool isFromSplash, required Function(bool isSuccess, String message) onLoginResult}) async {
-    isLoading.value=true;
-    await _miscController.checkInternet().then((value) async {
-      if (!value.contains('ignore')) {
-        var loginResponse = await api.login(username: username ?? '', password: password ?? '');
-        var success = jsonDecode(loginResponse)['Success'];
-        var message = jsonDecode(loginResponse)['Message'];
-        if (success) {
-          try {
-            var packet = jsonDecode(loginResponse)['Packet'];
-            UserInfo user = UserInfo.fromJson(packet);
+  void registration({
+    required BuildContext context,
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+    required String confirmPassword,
+    required Function(bool isSuccess, String message) onComplete,
+  }) async {
+    isLoading.value = true;
+    try {
+      final hasInternet = await _miscController.checkInternet();
+      if (!hasInternet.contains('ignore')) {
+        if (password != confirmPassword) {
+          _miscController.navigateBack(context: context);
+          isLoading.value = false;
+          onComplete(false, 'Passwords do not match');
+          return;
+        }else{
+
+          var data = {
+            "name": name,
+            "phone_number": phone,
+            "email": email,
+            "password": password,
+            "confirm_password": confirmPassword
+          };
+
+          var apiResponse = await api.postData(
+            endpoint: "/register/",
+            data: jsonEncode(data),
+          );
+
+          var response = jsonDecode(apiResponse);
+          var success = response['Success'];
+          var message = response['Message'];
+          isLoading.value = false;
+          if (success) {
+            var packet = response['Packet'];
             SharedPreferences preference = await _miscController.pref();
-            _miscController.prefSetString(pref: preference, key: Constant.userInfoPref, value: userInfoToJson(user));
-            AppCache(userInfo: user);
-            isLoading.value=false;
-            onLoginResult(true, 'Login Success');
-          } catch (ex) {
-            isLoading.value=false;
-            onLoginResult(false, 'Login Error : ${ex.toString()}');
-          }
-        } else {
-          onLoginResult(false, 'Login Error : $message');
-          isLoading.value=false;
-        }
-      } else {
-        if(isOnlineApp){
-          isLoading.value=false;
-          onLoginResult(false, "Internet Error!\nYou are offline, Please check your internet connection.");
-        } else {
-          if(isFromSplash){
-            isLoading.value=false;
-            onLoginResult(true, '');
+            _miscController.prefSetString(pref: preference, key: Constant.userPhoneNo, value: phone);
+
+            onComplete(true, 'Your Opt Sent in your email');
           } else {
-            isLoading.value=false;
-            onLoginResult(false, "Internet Error!\nYou are offline, Please check your internet connection.");
+            onComplete(false, 'Upload Failed: $message');
           }
+
         }
+
+      } else {
+        isLoading.value = false;
+        onComplete(false, "Internet Error!\nYou are offline, Please check your internet connection.");
       }
-    });
+    } catch (e) {
+      isLoading.value = false;
+      print("Upload Error: $e");
+      onComplete(false, 'Upload Error: Something went wrong.');
+    } finally {
+      isLoading.value = false;
+    }
   }
-  //endregion
-
-
 
 
 }

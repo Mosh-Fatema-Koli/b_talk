@@ -12,7 +12,7 @@ class API {
   final miscontroller=MiscController();
 
   API() {
-    _dio.options.baseUrl = "http://attendance.mrshakil.com/api";
+    _dio.options.baseUrl = "https://btok.mrshakil.com/api";
     _dio.interceptors.add(PrettyDioLogger());
   }
 
@@ -43,7 +43,7 @@ class API {
   login({String? endpoint, required String username, required String password,}) async {
     final String httpAddress = '/login/';
     var loginRequest = {
-      "username": username,
+      "phone_number": username,
       "password": password,
     };
 
@@ -66,7 +66,7 @@ class API {
           message = 'Login Successful';
           loginResponse['Success'] = true;
           loginResponse['Message'] = "Login Successfully";
-          loginResponse['Packet'] = response["user"];
+          loginResponse['Packet'] = response["data"];
           return json.encode(loginResponse);
         } else {
           loginResponse['Success'] = false;
@@ -131,7 +131,7 @@ class API {
         return json.encode(fetchResponse);
       } else {
         fetchResponse['Success'] = false;
-        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse?.statusCode);
+        fetchResponse['Message'] = _getHttpErrorMessage(apiResponse.statusCode);
         return json.encode(fetchResponse);
       }
     } on SocketException {

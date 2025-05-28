@@ -9,6 +9,7 @@ import '../../../../api_client/app_chase.dart';
 import '../../../../api_client/constant.dart';
 import '../../../../common_Controller/mis_controller.dart';
 import '../../../../common_model/UserInfo.dart';
+import '../../bottom_Nav_Bar/navBar.dart';
 
 class LoginController extends GetxController{
 
@@ -30,8 +31,12 @@ class LoginController extends GetxController{
             UserInfo user = UserInfo.fromJson(packet);
             SharedPreferences preference = await _miscController.pref();
             _miscController.prefSetString(pref: preference, key: Constant.userInfoPref, value: userInfoToJson(user));
+            _miscController.prefSetString(pref: preference, key: Constant.userPhoneNo, value: username);
+            _miscController.prefSetString(pref: preference, key: Constant.password, value: password);
+            _miscController.prefSetString(pref: preference, key: Constant.token, value: user.token.toString());
             AppCache(userInfo: user);
             isLoading.value=false;
+            Get.off(NavbarPage());
             onLoginResult(true, 'Login Success');
           } catch (ex) {
             isLoading.value=false;

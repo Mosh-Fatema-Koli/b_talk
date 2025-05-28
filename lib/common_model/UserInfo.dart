@@ -1,3 +1,6 @@
+// To parse this JSON data, do
+//
+//     final userInfo = userInfoFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -8,59 +11,39 @@ String userInfoToJson(UserInfo data) => json.encode(data.toJson());
 class UserInfo {
   int? id;
   String? username;
-  String? employeeId;
   String? name;
-  String? role;
-  String? designation;
-  String? phone;
+  String? phoneNumber;
   String? email;
-  String? address;
-  String? joiningDate;
-  String? image;
+  dynamic profilePicture;
   String? token;
 
   UserInfo({
     this.id,
     this.username,
-    this.employeeId,
     this.name,
-    this.role,
-    this.designation,
-    this.phone,
+    this.phoneNumber,
     this.email,
-    this.address,
-    this.joiningDate,
-    this.image,
+    this.profilePicture,
     this.token,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => UserInfo(
     id: json["id"],
     username: json["username"],
-    employeeId: json["employee_id"],
     name: json["name"],
-    role: json["role"],
-    designation: json["designation"],
-    phone: json["phone"],
+    phoneNumber: json["phone_number"],
     email: json["email"],
-    address: json["address"],
-    joiningDate: json["joining_date"],
-    image: json["image"],
+    profilePicture: json["profile_picture"],
     token: json["token"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "username": username,
-    "employee_id": employeeId,
     "name": name,
-    "role": role,
-    "designation": designation,
-    "phone": phone,
+    "phone_number": phoneNumber,
     "email": email,
-    "address": address,
-    "joining_date": joiningDate,
-    "image": image,
+    "profile_picture": profilePicture,
     "token": token,
   };
 }
