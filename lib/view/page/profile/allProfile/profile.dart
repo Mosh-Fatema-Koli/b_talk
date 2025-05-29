@@ -32,6 +32,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               customAppBar(ontap: () {
                 Get.back();
+
               },Text: "Profile"),
               SizedBox(
                 height: 10,
