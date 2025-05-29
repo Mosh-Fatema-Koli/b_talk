@@ -42,8 +42,13 @@ print(data);
       isLoading.value = false;
       if (success) {
         var packet = response['Packet'];
-        _miscController.toast(msg: "OTP matched, Please login ");
-        Get.offAll(LogINPage());
+        _miscController.showGraphicalDialog(context: context, cancelable: false,title: "OTP Matched",subTitle: "Please do login ",
+          okText: "Okey",
+          okPressed: (){
+            Get.offAll(LogINPage());
+          }
+        );
+
         onComplete(true, 'OTP matched, Please login ');
       } else {
         onComplete(false, 'Upload Failed: $message');

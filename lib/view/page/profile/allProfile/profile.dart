@@ -1,4 +1,6 @@
+import 'package:btalk/api_client/app_chase.dart';
 import 'package:btalk/utils/colors.dart';
+import 'package:btalk/view/page/profile/allProfile/edit_profile.dart';
 import 'package:btalk/view/page/profile/find_near_by/find_near_by.dart';
 import 'package:btalk/view/page/profile/help/help.dart';
 import 'package:btalk/view/page/profile/invite_friend/invite_friend.dart';
@@ -6,10 +8,13 @@ import 'package:btalk/view/page/profile/notification/notification.dart';
 import 'package:btalk/view/page/profile/settings/settings.dart';
 import 'package:btalk/view/widgets/custom_appber.dart';
 import 'package:btalk/view/widgets/k_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../../api_client/constant.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -65,16 +70,26 @@ class ProfilePage extends StatelessWidget {
                         width: 100,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.asset("assets/girl.jpg")),
+                            child: CachedNetworkImage(
+                              imageUrl: "${Constant.imageUrl}${AppCache().userInfo!.profilePicture}",
+                              fit: BoxFit.cover, // Cover to fill the circular space
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Image.asset("assets/man.png", fit: BoxFit.contain),
+                            )),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.grey.shade300,
                         ),
                       ),
-                      KText(text: "Fatema Koli",fontSize: 16.sp,fontWeight: FontWeight.bold,),
-                      KText(text: "01302607702",fontSize: 12,),
+                      KText(text: AppCache().userInfo?.name,fontSize: 16.sp,fontWeight: FontWeight.bold,),
+                      KText(text: AppCache().userInfo?.phoneNumber,fontSize: 12,),
                        GestureDetector(
-                           onTap:() {} ,
+                           onTap:() {
+                             Get.to(EditPofilePage(userInfo: AppCache().userInfo!,));
+                           } ,
                            child: Padding(
                              padding: const EdgeInsets.all(8.0),
                              child: Icon(Icons.edit_outlined,size: 15,),

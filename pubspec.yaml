@@ -42,7 +42,6 @@ dependencies:
   shared_preferences:
   connectivity_plus: 5.0.1
   google_sign_in:
-  flutter_facebook_auth:
   intl:
   carousel_slider:
   introduction_screen:
@@ -53,14 +52,12 @@ dependencies:
   path_provider:
   fluttertoast:
   flutter_launcher_icons:
-  hidden_drawer_menu:
   lottie:
-  camera:
   image_picker:
   cached_network_image:
   pinput:
-  network_info_plus:
-  permission_handler: ^11.0.1
+
+
 
 
 dev_dependencies:

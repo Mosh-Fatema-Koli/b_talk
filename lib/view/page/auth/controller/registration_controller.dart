@@ -32,7 +32,6 @@ class RegistrationController extends GetxController{
       final hasInternet = await _miscController.checkInternet();
       if (!hasInternet.contains('ignore')) {
         if (password != confirmPassword) {
-          _miscController.navigateBack(context: context);
           isLoading.value = false;
           onComplete(false, 'Passwords do not match');
           return;

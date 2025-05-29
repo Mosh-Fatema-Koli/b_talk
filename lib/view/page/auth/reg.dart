@@ -51,7 +51,7 @@ class RegistrationPage extends StatelessWidget {
                   ),
                   RFTextField(controller: nameController,
                     Picon: Icon(Icons.person, size: 18.w,),
-                    hintText: "Enter your Phone Number",
+                    hintText: "Enter your name Number",
                   ),
                   SizedBox(
                     height: 10.w,
@@ -118,7 +118,7 @@ class RegistrationPage extends StatelessWidget {
                            password: passwordController.text,
                            confirmPassword: conPasswordController.text,
                            onComplete: (isSuccess, message) {
-                             isSuccess==true?_miscController.navigateTo(context: context,page:OTPPage(phoneNo: passwordController.text,) ):_miscController.toast(msg: message);
+                             isSuccess==true?_miscController.navigateTo(context: context,page:OTPPage(phoneNo: passwordController.text,) ):_miscController.toast(msg:"Phone Number already taken!");
                            },);
                     }else{
                       _miscController.toast(msg: "Please Fill up all the fill");

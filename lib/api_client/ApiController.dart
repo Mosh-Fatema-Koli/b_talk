@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../common_Controller/mis_controller.dart';
@@ -8,7 +8,7 @@ import '../common_Controller/mis_controller.dart';
 
 class API {
 
-  final Dio _dio = Dio();
+  final dio.Dio _dio = dio.Dio();
   final miscontroller=MiscController();
 
   API() {
@@ -16,9 +16,9 @@ class API {
     _dio.interceptors.add(PrettyDioLogger());
   }
 
-  Dio get sendRequest => _dio;
+  dio.Dio get sendRequest => _dio;
 
-  Future<Response> apiCore({required String address, required String method, String? token, dynamic jsonData,}) async {
+  Future<dio.Response> apiCore({required String address, required String method, String? token, dynamic jsonData,}) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
@@ -98,7 +98,7 @@ class API {
       }
     } on SocketException {
       return json.encode(loginResponse);
-    }  on DioException {
+    }  on dio.DioException {
       return json.encode(loginResponse);
     } catch (ex) {
       loginResponse['Success'] = false;
@@ -117,7 +117,7 @@ class API {
     };
 
     try {
-      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+      dio.Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
 
       if (apiResponse.statusCode == 200) {
         var response = apiResponse.data;
@@ -137,7 +137,7 @@ class API {
     } on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException {
+    } on dio.DioException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed';
     } catch (ex) {
@@ -155,7 +155,7 @@ class API {
       "Packet": {},
     };
     try {
-      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+      dio.Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
 
       if (apiResponse.statusCode == 200) {
         var response = apiResponse.data;
@@ -177,7 +177,7 @@ class API {
     } on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException {
+    } on dio.DioException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed';
     } catch (ex) {
@@ -201,7 +201,7 @@ class API {
 
     try {
       // ✅ Pass `data` directly, it can now handle FormData or JSON
-      Response apiResponse = await apiCore(
+      dio.Response apiResponse = await apiCore(
         address: endpoint,
         method: 'POST',
         token: token??"",
@@ -220,7 +220,7 @@ class API {
     } on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException catch (e) {
+    } on dio.DioException catch (e) {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed: ${e.message}';
     } catch (ex) {
@@ -241,7 +241,7 @@ class API {
     };
 
     try {
-      Response? apiResponse = await apiCore(
+      dio.Response? apiResponse = await apiCore(
         address: endpoint,
         method: 'PUT',
         token: token,
@@ -260,7 +260,7 @@ class API {
     }  on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException catch (e) {
+    } on dio.DioException catch (e) {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed: ${e.message}';
     } catch (ex) {
@@ -282,7 +282,7 @@ class API {
     };
 
     try {
-      Response? apiResponse = await apiCore(
+      dio.Response? apiResponse = await apiCore(
         address: endpoint,
         method: 'DELETE',
         token: token,
@@ -300,7 +300,7 @@ class API {
     }  on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException catch (e) {
+    } on dio.DioException catch (e) {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed: ${e.message}';
     } catch (ex) {
@@ -318,7 +318,7 @@ class API {
       "Packet": {},
     };
     try {
-      Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
+      dio.Response? apiResponse = await apiCore(address: endpoint, method: 'GET', token: token);
 
       if (apiResponse.statusCode == 200) {
         Map<String, dynamic> response = apiResponse.data;
@@ -335,7 +335,7 @@ class API {
     } on SocketException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'No internet connection';
-    } on DioException {
+    } on dio.DioException {
       fetchResponse['Success'] = false;
       fetchResponse['Message'] = 'Request failed';
     } catch (ex) {

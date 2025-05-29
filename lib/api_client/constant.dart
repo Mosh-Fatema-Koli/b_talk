@@ -1,6 +1,7 @@
 
 class Constant {
   static const String baseUrl = 'https://btok.mrshakil.com';
+  static const String imageUrl = 'https://btok.mrshakil.com';
   static const String login = baseUrl+'api/login/';
   static const String registration= baseUrl+'api/login/';
   static const String story = baseUrl+'api/login/';

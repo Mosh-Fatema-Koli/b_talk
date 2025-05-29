@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utils/colors.dart';
 import '../../widgets/k_text.dart';
-import '../profile/profile.dart';
+import '../profile/allProfile/profile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

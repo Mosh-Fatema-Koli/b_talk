@@ -49,11 +49,13 @@ class LoginController extends GetxController{
       } else {
         if(isOnlineApp){
           isLoading.value=false;
+          _miscController.toast(msg: "Internet Error!\nYou are offline, Please check your internet connection.");
           onLoginResult(false, "Internet Error!\nYou are offline, Please check your internet connection.");
         } else {
           if(isFromSplash){
             isLoading.value=false;
-            onLoginResult(true, '');
+            _miscController.toast(msg: "Internet Error!\nYou are offline, Please check your internet connection.");
+            onLoginResult(false, '');
           } else {
             isLoading.value=false;
             onLoginResult(false, "Internet Error!\nYou are offline, Please check your internet connection.");

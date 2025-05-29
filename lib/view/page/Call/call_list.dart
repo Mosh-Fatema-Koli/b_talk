@@ -7,7 +7,7 @@ import '../../../utils/colors.dart';
 import '../../widgets/framework/RFTextField.dart';
 import '../../widgets/k_text.dart';
 import '../Chat/comphonent/show_profile_dialog.dart';
-import '../profile/profile.dart';
+import '../profile/allProfile/profile.dart';
 
 class CallListPage extends StatelessWidget {
   const CallListPage({super.key});
