@@ -11,9 +11,9 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../../../common_Controller/mis_controller.dart';
 import '../../../utils/colors.dart';
 import '../../widgets/button.dart';
-import '../../widgets/framework/RFText.dart';
+import '../../widgets/framework/RFRichText.dart';
 import '../../widgets/framework/RFTextField.dart';
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 
 class RegistrationPage extends StatelessWidget {
    RegistrationPage({super.key});
@@ -34,7 +34,7 @@ class RegistrationPage extends StatelessWidget {
       body: Obx(() {
         return ListView(
           children: [
-            Center(child: KText(text: "Create an Account",
+            Center(child: RFText(text: "Create an Account",
               fontSize: 20,
               fontWeight: FontWeight.bold,)),
             SizedBox(
@@ -45,7 +45,7 @@ class RegistrationPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  KText(text: "Name"),
+                  RFText(text: "Name"),
                   SizedBox(
                     height: 5.w,
                   ),
@@ -56,7 +56,7 @@ class RegistrationPage extends StatelessWidget {
                   SizedBox(
                     height: 10.w,
                   ),
-                  KText(text: "Phone Number"),
+                  RFText(text: "Phone Number"),
                   SizedBox(
                     height: 5.w,
                   ),
@@ -67,7 +67,7 @@ class RegistrationPage extends StatelessWidget {
                   SizedBox(
                     height: 10.w,
                   ),
-                  KText(text: "Email"),
+                  RFText(text: "Email"),
                   SizedBox(
                     height: 5.w,
                   ),
@@ -78,7 +78,7 @@ class RegistrationPage extends StatelessWidget {
                   SizedBox(
                     height: 10.w,
                   ),
-                  KText(text: "Password"),
+                  RFText(text: "Password"),
                   SizedBox(
                     height: 5.w,
                   ),
@@ -89,7 +89,7 @@ class RegistrationPage extends StatelessWidget {
                   SizedBox(
                     height: 10.w,
                   ),
-                  KText(text: "Confirm Password"),
+                  RFText(text: "Confirm Password"),
                   SizedBox(
                     height: 5.w,
                   ),
@@ -104,7 +104,7 @@ class RegistrationPage extends StatelessWidget {
                     child: SizedBox(
                         height:30.h,
                         child: CircularProgressIndicator()),
-                  ) : RFButton(text: "Register",
+                  ) : CustomButton(text: "Register",
                     onPressed: () {
                     if(nameController.text.isNotEmpty &&
                         phoneController.text.isNotEmpty &&
@@ -134,7 +134,7 @@ class RegistrationPage extends StatelessWidget {
                     children: [
                       Container(width: 10, height: 1, color: Colors.grey,),
                       SizedBox(width: 10.w,),
-                      KText(text: "OR"),
+                      RFText(text: "OR"),
                       SizedBox(width: 10.w,),
                       Container(width: 10, height: 1, color: Colors.grey,),
                     ],
@@ -155,7 +155,7 @@ class RegistrationPage extends StatelessWidget {
                             radius: 20,
                             child: Image.asset("assets/google.png", fit: BoxFit
                                 .cover,),),
-                          RFText(text: "Google Login",isMandatory: false,)
+                          RFRichText(text: "Google Login",isMandatory: false,)
                         ],
                       ),
 
@@ -176,9 +176,9 @@ class RegistrationPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KText(text: "Already have an settings?"),
+                        RFText(text: "Already have an settings?"),
                         SizedBox(width: 5.w,),
-                        KText(text: "Log In", fontWeight: FontWeight.bold,)
+                        RFText(text: "Log In", fontWeight: FontWeight.bold,)
                       ],),
                   )
                 ],

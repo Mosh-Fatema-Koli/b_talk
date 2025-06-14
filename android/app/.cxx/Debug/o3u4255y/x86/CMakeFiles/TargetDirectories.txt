@@ -1,0 +1,2 @@
+/Users/fatemakoli/Documents/office/b_talk/android/app/.cxx/Debug/o3u4255y/x86/CMakeFiles/edit_cache.dir
+/Users/fatemakoli/Documents/office/b_talk/android/app/.cxx/Debug/o3u4255y/x86/CMakeFiles/rebuild_cache.dir

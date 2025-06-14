@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/custom_appber.dart';
-import '../../../widgets/k_text.dart';
+import '../../../widgets/RFText.dart';
 
 class AfflictPage extends StatelessWidget {
   const AfflictPage({super.key});
@@ -32,7 +32,7 @@ class AfflictPage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.settings),
                 tileColor: Colors.white,
-                title :KText(text: "Delete settings") ,
+                title :RFText(text: "Delete settings") ,
                 trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
               ),
               SizedBox(

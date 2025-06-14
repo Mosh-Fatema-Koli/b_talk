@@ -1,71 +1,60 @@
 import 'package:btalk/utils/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../widgets/backButton.dart';
 import '../../../widgets/custom_appber.dart';
-import '../../../widgets/k_text.dart';
+import '../../../widgets/RFText.dart';
+import '../../../widgets/framework/RFRichText.dart';
+import '../../bottom_Nav_Bar/navBar.dart';
+import 'invite_controller.dart';
 
 class InvitePage extends StatelessWidget {
-  const InvitePage({super.key});
+  InvitePage({super.key});
+
+  final InviteFriendInfoController controller = Get.put(InviteFriendInfoController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w,),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              customAppBar(ontap: () {
-                Get.back();
-              },Text: "Invite Friend"),
-
-              ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: 10,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListTile(
-                    onTap: () {
-                      //  Get.to(ChatDetailsPage());
-                    },
-                    contentPadding: EdgeInsets.zero,
-                    leading: GestureDetector(
-                      onTap: () {
-                        // Get.dialog(Prodile_dialog());
-                      },
-                      child: Container(
-                        height: 45,
-                        width: 45,
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey.shade300),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset("assets/girl.jpg"),
-                        ),
-                      ),
-                    ),
-                    title: KText(text: "MR.XXXXXX"),
-                    subtitle: KText(text: "01302XXXXXXX"),
-                    trailing: KText(text: "Invite",color: AppColors.colorButton2,fontSize: 12,),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        leading: CustomBackButton(
+          onTap: () => Get..back()),
+        title: RFRichText(text: "Invite Friend", isMandatory: false),
       ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.contacts.isEmpty) {
+          return const Center(child: Text("No contacts found"));
+        }
+
+        return ListView.builder(
+          itemCount: controller.contacts.length,
+          itemBuilder: (context, index) {
+            final contact = controller.contacts[index];
+            final phone = contact.phones.isNotEmpty
+                ? contact.phones.first.number
+                : 'No number';
+
+            return ListTile(
+              leading: const Icon(Icons.person),
+              title: Text(contact.displayName),
+              subtitle: Text(phone),
+              trailing: IconButton(
+                icon: const Icon(Icons.send),
+                onPressed: () {
+                  // TODO: Add invite logic (e.g., open SMS or share link)
+                  Get.snackbar("Invite", "Invitation sent to ${contact.displayName}");
+                },
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

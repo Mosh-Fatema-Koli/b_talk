@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utils/colors.dart';
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 import '../profile/allProfile/profile.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: KText(
+        title: RFText(
           text: "Newsfeed",
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             Icon(Icons.add),
                             SizedBox(width: 5),
-                            KText(text: "Create post"),
+                            RFText(text: "Create post"),
                           ],
                         ),
                         Icon(Icons.image_outlined),
@@ -133,8 +133,8 @@ class HomePage extends StatelessWidget {
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: CircleAvatar(),
-                        title: KText(text: "MR.XXXXXX"),
-                        subtitle: KText(text: "3:10pm"),
+                        title: RFText(text: "MR.XXXXXX"),
+                        subtitle: RFText(text: "3:10pm"),
                         trailing: IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.share),
@@ -169,7 +169,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 Icon(Icons.emoji_emotions_outlined),
                                 SizedBox(width: 5),
-                                KText(text: "Say something"),
+                                RFText(text: "Say something"),
                               ],
                             ),
                             Icon(Icons.send),

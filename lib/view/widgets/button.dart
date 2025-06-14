@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../utils/colors.dart';
 
-class RFButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
 
   final String text;
   final Color? textColor;
@@ -17,7 +17,7 @@ class RFButton extends StatelessWidget {
   final EdgeInsets? buttonPadding;
   final Function onPressed;
 
-  const RFButton({
+  const CustomButton({
     super.key,
     required this.text,
     this.textColor,

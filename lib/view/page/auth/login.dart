@@ -1,7 +1,7 @@
 import 'package:btalk/utils/colors.dart';
 import 'package:btalk/view/page/auth/controller/login_controller.dart';
 import 'package:btalk/view/page/auth/reg.dart';
-import 'package:btalk/view/widgets/framework/RFText.dart';
+import 'package:btalk/view/widgets/framework/RFRichText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import '../../../common_Controller/mis_controller.dart';
 import '../../widgets/button.dart';
 import '../../widgets/framework/RFTextField.dart';
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 import '../bottom_Nav_Bar/navBar.dart';
 import 'controller/google_sign_In.dart';
 
@@ -37,7 +37,7 @@ class LogINPage extends StatelessWidget {
         appBar: AppBar(),
         body: ListView(
           children: [
-            Center(child: KText(text: "Login to BTalk",
+            Center(child: RFText(text: "Login to BTalk",
               fontSize: 20,
               fontWeight: FontWeight.bold,)),
             SizedBox(
@@ -49,7 +49,7 @@ class LogINPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    KText(text: "Phone Number"),
+                    RFText(text: "Phone Number"),
                     SizedBox(
                       height: 5.w,
                     ),
@@ -60,7 +60,7 @@ class LogINPage extends StatelessWidget {
                     SizedBox(
                       height: 10.w,
                     ),
-                    KText(text: "Password"),
+                    RFText(text: "Password"),
                     SizedBox(
                       height: 5.w,
                     ),
@@ -70,7 +70,7 @@ class LogINPage extends StatelessWidget {
                     SizedBox(
                       height: 20.w,
                     ),
-                    KText(text: "Forget Password?"),
+                    RFText(text: "Forget Password?"),
 
                     SizedBox(
                       height: 30.w,
@@ -79,7 +79,7 @@ class LogINPage extends StatelessWidget {
                      child: SizedBox(
                          height:30.h,
                          child: CircularProgressIndicator()),
-                   ) :RFButton(text: "Log In", onPressed: () {
+                   ) :CustomButton(text: "Log In", onPressed: () {
                      if (phoneController.text.isNotEmpty && passwordController.text.isNotEmpty) {
                       logInController.login(username: phoneController.text, password: passwordController.text, isOnlineApp: true, isFromSplash: false, onLoginResult: (isSuccess, message) {
                       },);
@@ -97,7 +97,7 @@ class LogINPage extends StatelessWidget {
                       children: [
                         Container(width: 10, height: 1, color: Colors.grey,),
                         SizedBox(width: 10.w,),
-                        KText(text: "OR"),
+                        RFText(text: "OR"),
                         SizedBox(width: 10.w,),
                         Container(width: 10, height: 1, color: Colors.grey,),
                       ],
@@ -118,7 +118,7 @@ class LogINPage extends StatelessWidget {
                               radius: 20,
                               child: Image.asset("assets/google.png", fit: BoxFit
                                   .cover,),),
-                            RFText(text: "Google Login",isMandatory: false,)
+                            RFRichText(text: "Google Login",isMandatory: false,)
                           ],
                         ),
 
@@ -136,9 +136,9 @@ class LogINPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          KText(text: "Don’t have an settings?"),
+                          RFText(text: "Don’t have an settings?"),
                           SizedBox(width: 5.w,),
-                          KText(text: "Sign Up", fontWeight: FontWeight.bold,)
+                          RFText(text: "Sign Up", fontWeight: FontWeight.bold,)
                         ],),
                       onTap: () {
                         Get.to(RegistrationPage());

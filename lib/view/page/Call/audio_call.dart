@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 
 class AudioCallPage extends StatelessWidget {
   const AudioCallPage({super.key});
@@ -16,8 +16,8 @@ class AudioCallPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              KText(text: "Mosh fatema Koli"),
-              KText(text: "calling"),
+              RFText(text: "Mosh fatema Koli"),
+              RFText(text: "calling"),
             ],
           ),
         ),

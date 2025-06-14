@@ -4,7 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../../utils/colors.dart';
 import '../../widgets/framework/RFTextField.dart';
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 import '../Chat/comphonent/show_profile_dialog.dart';
 import '../profile/allProfile/profile.dart';
 
@@ -17,7 +17,7 @@ class ContactListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: KText(text: "Contact List",fontSize: 20,fontWeight: FontWeight.bold,),
+        title: RFText(text: "Contact List",fontSize: 20,fontWeight: FontWeight.bold,),
         actions: [
           Card(
             color: Colors.white,
@@ -74,8 +74,8 @@ class ContactListPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  title: KText(text: "MR.XXXXXX"),
-                  subtitle:KText(text: "0168788689789"),
+                  title: RFText(text: "MR.XXXXXX"),
+                  subtitle:RFText(text: "0168788689789"),
 
                 ),
               ),)

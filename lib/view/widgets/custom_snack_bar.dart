@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
-import 'k_text.dart';
+import 'RFText.dart';
 
 
 
@@ -33,7 +33,7 @@ void showCustomSnackBar(String message, {bool isError = true, bool getXSnackBar 
         backgroundColor: isError ? AppColors.colorWhite: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-        content: Center(child: KText(text: message,color: Colors.black,))
+        content: Center(child: RFText(text: message,color: Colors.black,))
       ));
     }
   }

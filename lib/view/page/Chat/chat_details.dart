@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 import '../Call/audio_call.dart';
 import '../Call/video_call.dart';
 import 'comphonent/show_profile_dialog.dart';
@@ -40,12 +40,12 @@ class ChatDetailsPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                KText(
+                RFText(
                   text: "Mosh Fatema Koli",
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                KText(
+                RFText(
                   text: "Online",
                   fontSize: 10,
                   fontWeight: FontWeight.bold,

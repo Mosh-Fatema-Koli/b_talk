@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../utils/colors.dart';
-import '../../../widgets/k_text.dart';
+import '../../../widgets/RFText.dart';
 
 Prodile_dialog() {
   return Stack(
@@ -33,12 +33,12 @@ Prodile_dialog() {
                   SizedBox(
                     height: 10,
                   ),
-                  KText(
+                  RFText(
                     text: "Mosh Fatema Koli",
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
-                  KText(
+                  RFText(
                     text: "01302XXXXXXX",
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

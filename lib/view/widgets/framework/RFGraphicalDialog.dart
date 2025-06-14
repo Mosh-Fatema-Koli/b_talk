@@ -1,4 +1,6 @@
 
+import 'package:btalk/utils/colors.dart';
+import 'package:btalk/view/widgets/framework/RFButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,7 +78,7 @@ class RFGraphicalDialog extends StatelessWidget {
                   ? RFButton(
                       buttonRadius: 8.r,
                       text: okText!,
-                      buttonColor: Colors.greenAccent,
+                      buttonColor: AppColors.primaryColor,
                       buttonHeight: 34.h,
                       buttonTextSize: 14.sp,
                       buttonWidth: 80.w,

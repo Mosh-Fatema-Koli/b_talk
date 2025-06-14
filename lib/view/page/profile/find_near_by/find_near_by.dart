@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/colors.dart';
+import '../../../widgets/backButton.dart';
 import '../../../widgets/custom_appber.dart';
-import '../../../widgets/k_text.dart';
+import '../../../widgets/RFText.dart';
+import '../../../widgets/framework/RFRichText.dart';
 
 class FindNearByPage extends StatelessWidget {
   const FindNearByPage({super.key});
@@ -13,7 +15,11 @@ class FindNearByPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        leading: CustomBackButton(
+            onTap: () => Get..back()),
+        title: RFRichText(text: "Find People Nearby", isMandatory: false),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w,),
         child: SingleChildScrollView(
@@ -21,10 +27,6 @@ class FindNearByPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              customAppBar(ontap: () {
-                Get.back();
-              },Text: "Find People Nearby"),
-
               ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: 10,
@@ -54,9 +56,9 @@ class FindNearByPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    title: KText(text: "MR.XXXXXX"),
-                    subtitle: KText(text: "01302XXXXXXX"),
-                    trailing: KText(text: "Invite",color: AppColors.colorButton2,fontSize: 12,),
+                    title: RFText(text: "MR.XXXXXX"),
+                    subtitle: RFText(text: "01302XXXXXXX"),
+                    trailing: RFText(text: "+ Add Request",color: AppColors.colorButton2,fontSize: 12,),
                   ),
                 ),
               ),

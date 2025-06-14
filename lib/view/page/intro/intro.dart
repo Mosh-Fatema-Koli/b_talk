@@ -1,6 +1,6 @@
 import 'package:btalk/utils/colors.dart';
 import 'package:btalk/view/page/auth/login.dart';
-import 'package:btalk/view/widgets/k_text.dart';
+import 'package:btalk/view/widgets/RFText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -28,7 +28,7 @@ class IntroPage extends StatelessWidget {
             children: [
               Image.asset("assets/logo.png",width: 119.w,),
               SizedBox(height: 30,),
-              KText(text: "Welcome to bTalk!",fontSize: 26.sp,),
+              RFText(text: "Welcome to bTalk!",fontSize: 26.sp,),
               SizedBox(height: 40,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +44,7 @@ class IntroPage extends StatelessWidget {
                         border: Border.all(color:AppColors.colorButton,width: 1,style: BorderStyle.solid),
 
                       ),
-                      child: KText(text: "Log In",color:AppColors.colorButton,),
+                      child: RFText(text: "Log In",color:AppColors.colorButton,),
                     ),
                   ),
                   SizedBox(width: 10.w,),
@@ -60,7 +60,7 @@ class IntroPage extends StatelessWidget {
                         border: Border.all(color: AppColors.colorButton,width: 1,style: BorderStyle.solid),
 
                       ),
-                      child: KText(text: "Sign Up",color: AppColors.colorButton,),
+                      child: RFText(text: "Sign Up",color: AppColors.colorButton,),
                     ),
                   ),
                 ],

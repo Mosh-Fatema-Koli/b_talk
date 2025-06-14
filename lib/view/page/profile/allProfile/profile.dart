@@ -1,13 +1,14 @@
 import 'package:btalk/api_client/app_chase.dart';
 import 'package:btalk/utils/colors.dart';
+import 'package:btalk/view/page/auth/login.dart';
 import 'package:btalk/view/page/profile/allProfile/edit_profile.dart';
 import 'package:btalk/view/page/profile/find_near_by/find_near_by.dart';
-import 'package:btalk/view/page/profile/help/help.dart';
+import 'package:btalk/view/page/profile/friend_request/friendrequest.dart';
 import 'package:btalk/view/page/profile/invite_friend/invite_friend.dart';
 import 'package:btalk/view/page/profile/notification/notification.dart';
 import 'package:btalk/view/page/profile/settings/settings.dart';
-import 'package:btalk/view/widgets/custom_appber.dart';
-import 'package:btalk/view/widgets/k_text.dart';
+import 'package:btalk/view/page/profile/youRequest/your_request_page.dart';
+import 'package:btalk/view/widgets/RFText.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../api_client/constant.dart';
+import '../../../widgets/backButton.dart';
+import '../../../widgets/framework/RFRichText.dart';
+import '../../auth/controller/login_controller.dart';
+import '../../bottom_Nav_Bar/navBar.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
+   ProfilePage({super.key});
+  final logInController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        leading: CustomBackButton(onTap: () {
+          Get.off(NavbarPage());
+        },),
+        title: Center(child: RFRichText(text: "Profile", isMandatory: false)),
+        actions: [
+          IconButton(onPressed:() {
+            Get.to(SettingsPage());
+          } , icon: Icon(Icons.settings)),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w,),
         child: SingleChildScrollView(
@@ -30,10 +48,6 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              customAppBar(ontap: () {
-                Get.back();
-
-              },Text: "Profile"),
               SizedBox(
                 height: 10,
               ),
@@ -85,8 +99,8 @@ class ProfilePage extends StatelessWidget {
                             color: Colors.grey.shade300,
                         ),
                       ),
-                      KText(text: AppCache().userInfo?.name,fontSize: 16.sp,fontWeight: FontWeight.bold,),
-                      KText(text: AppCache().userInfo?.phoneNumber,fontSize: 12,),
+                      RFText(text: AppCache().userInfo?.name,fontSize: 16.sp,fontWeight: FontWeight.bold,),
+                      RFText(text: AppCache().userInfo?.phoneNumber,fontSize: 12,),
                        GestureDetector(
                            onTap:() {
                              Get.to(EditPofilePage(userInfo: AppCache().userInfo!,));
@@ -104,7 +118,9 @@ class ProfilePage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-
+                logInController.logout(context: context, onLogout: (){
+                  Get.offAll(LogINPage());
+                });
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
@@ -112,7 +128,7 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: AppColors.colorButton2.withOpacity(.1),
                   ),
-                  child: KText(text: "Log out",color: AppColors.colorButton2,),
+                  child: RFText(text: "Log out",color: AppColors.colorButton2,),
                 ),
               ),
               SizedBox(
@@ -126,7 +142,7 @@ class ProfilePage extends StatelessWidget {
                     Get.to(NotificationPage());
                   },
                   leading: Icon(Icons.notifications_none,color: AppColors.colorButton2,),
-                  title :KText(text: "Notification") ,
+                  title :RFText(text: "Notification") ,
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
                 ),
               ),
@@ -140,7 +156,7 @@ class ProfilePage extends StatelessWidget {
                   onTap: () {
                     Get.to(InvitePage());
                   },
-                  title :KText(text: "Invite Friend") ,
+                  title :RFText(text: "Invite Friend") ,
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
                 ),
               ),
@@ -154,7 +170,7 @@ class ProfilePage extends StatelessWidget {
                     Get.to(FindNearByPage());
                   },
                   leading: Icon(Icons.my_location_sharp,color: AppColors.colorButton2,),
-                  title :KText(text: "Find nearby people") ,
+                  title :RFText(text: "Find nearby people") ,
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
                 ),
               ),
@@ -165,10 +181,10 @@ class ProfilePage extends StatelessWidget {
                 color: Colors.white,
                 child: ListTile(
                   onTap: () {
-                    Get.to(SettingsPage());
+                    Get.to(FriendRequestPage());
                   },
-                  leading: Icon(Icons.settings,color: AppColors.colorButton2,),
-                  title :KText(text: "Settings") ,
+                  leading: Icon(Icons.groups,color: AppColors.colorButton2,),
+                  title :RFText(text: "Friend Request") ,
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
                 ),
               ),
@@ -179,17 +195,19 @@ class ProfilePage extends StatelessWidget {
                 color: Colors.white,
                 child: ListTile(
                   onTap: () {
-                    Get.to(HelpPage());
+                    Get.to(YourRequestPage());
                   },
-                  leading: Icon(Icons.help_outline_outlined,color: AppColors.colorButton2,),
-                  title :KText(text: "Help") ,
+                  leading: Icon(Icons.person_add,color: AppColors.colorButton2,),
+                  title :RFText(text: "My Request") ,
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 15,),
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 5,
               ),
-          
+
+
+             
             ],
           ),
         ),

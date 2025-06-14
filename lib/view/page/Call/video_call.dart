@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 
 class VideoCallPage extends StatelessWidget {
   const VideoCallPage({super.key});
@@ -16,8 +16,8 @@ class VideoCallPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              KText(text: "Mosh fatema Koli"),
-              KText(text: "calling"),
+              RFText(text: "Mosh fatema Koli"),
+              RFText(text: "calling"),
             ],
           ),
         ),

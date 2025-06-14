@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../utils/colors.dart';
 import '../../widgets/framework/RFTextField.dart';
-import '../../widgets/k_text.dart';
+import '../../widgets/RFText.dart';
 import '../profile/allProfile/profile.dart';
 import 'chat_details.dart';
 import 'comphonent/show_profile_dialog.dart';
@@ -78,15 +78,15 @@ class ChatPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  title: KText(text: "MR.XXXXXX"),
-                  subtitle: KText(text: "text"),
+                  title: RFText(text: "MR.XXXXXX"),
+                  subtitle: RFText(text: "text"),
                   trailing: Column(
                     children: [
                       CircleAvatar(
-                        child: KText(text: "2"),
+                        child: RFText(text: "2"),
                         radius: 15,
                       ),
-                      KText(text: "02:30 AM"),
+                      RFText(text: "02:30 AM"),
                     ],
                   ),
                 ),

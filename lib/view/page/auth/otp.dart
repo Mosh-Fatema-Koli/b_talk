@@ -11,7 +11,7 @@ import '../../../api_client/constant.dart';
 import '../../../common_Controller/mis_controller.dart';
 import '../../../utils/colors.dart';
 import '../../widgets/button.dart';
-import '../../widgets/framework/RFText.dart';
+import '../../widgets/framework/RFRichText.dart';
 
 
 class OTPPage extends StatelessWidget {
@@ -68,13 +68,13 @@ class OTPPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                RFText(
+                RFRichText(
                   text: "OTP Verify",
                   size: 25.sp,
                   weight: FontWeight.bold, isMandatory: false,
                 ),
                 SizedBox(height: 15.h),
-                RFText(
+                RFRichText(
                   text: "Please check your email, enter your OTP",
                   size: 12.sp,
                   weight: FontWeight.normal,
@@ -92,7 +92,7 @@ class OTPPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 SizedBox(height: 30.h),
-                RFButton(text: "Send OTP",
+                CustomButton(text: "Send OTP",
                   onPressed: () async {
 
                     if(pinController.text.isNotEmpty || pinController.length ==4 ){

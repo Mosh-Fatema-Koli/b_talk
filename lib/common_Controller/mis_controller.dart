@@ -15,7 +15,7 @@ import '../view/widgets/alart_dialog.dart';
 import '../view/widgets/button.dart';
 import '../view/widgets/framework/RFGraphicalDialog.dart';
 import '../view/widgets/framework/RFProgressDialog.dart';
-import '../view/widgets/framework/RFText.dart';
+import '../view/widgets/framework/RFRichText.dart';
 
 
 class MiscController {
@@ -289,7 +289,7 @@ class MiscController {
                         ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RFText(text: title, size: 16.sp, weight: FontWeight.w700, isMandatory: false,),
+                        RFRichText(text: title, size: 16.sp, weight: FontWeight.w700, isMandatory: false,),
                         SizedBox(height: 10.h,),
                       ],
                     )
@@ -315,7 +315,7 @@ class MiscController {
                               flex: 1,
                               child: Padding(
                                 padding: EdgeInsets.only(right: 20.w),
-                                child: RFButton(
+                                child: CustomButton(
                                   text: cancelButtonText,
                                   buttonRadius: 8.r,
                                   buttonColor: Colors.white,
@@ -334,7 +334,7 @@ class MiscController {
                               flex: 1,
                               child: Padding(
                                 padding: cancelButtonText != null ? EdgeInsets.symmetric(horizontal:  0.w) : EdgeInsets.symmetric(horizontal:  48.w),
-                                child: RFButton(
+                                child: CustomButton(
                                   text: okButtonText,
                                   buttonRadius: 8.r,
                                   buttonColor: Colors.green,

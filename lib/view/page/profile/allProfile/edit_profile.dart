@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:btalk/utils/colors.dart';
 import 'package:btalk/view/page/profile/allProfile/controller/edit_profile_controller.dart';
-import 'package:btalk/view/widgets/framework/RFText.dart';
+import 'package:btalk/view/page/profile/allProfile/profile.dart';
+import 'package:btalk/view/widgets/framework/RFRichText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,10 +14,11 @@ import '../../../../api_client/app_chase.dart';
 import '../../../../api_client/constant.dart';
 import '../../../../common_Controller/mis_controller.dart';
 import '../../../../common_model/UserInfo.dart';
+import '../../../widgets/backButton.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/framework/RFTextField.dart';
 import '../../../widgets/framework/boxdecoration.dart';
-import '../../../widgets/k_text.dart';
+import '../../../widgets/RFText.dart';
 
 class EditPofilePage extends StatelessWidget {
   final UserInfo userInfo;
@@ -34,7 +36,10 @@ class EditPofilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: RFText(text: "Edit Profile", isMandatory: false),
+        leading: CustomBackButton(onTap: () {
+          Get.off(ProfilePage());
+        },),
+        title: RFRichText(text: "Edit Profile", isMandatory: false),
       ),
       body: Obx(() {
         return Padding(
@@ -79,6 +84,7 @@ class EditPofilePage extends StatelessWidget {
                             Container(
                               height: 100,
                               width: 100,
+
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: editController.imagePath.value.isNotEmpty
@@ -95,6 +101,7 @@ class EditPofilePage extends StatelessWidget {
                                         image: DecorationImage(
                                             image: imageProvider,
                                             fit: BoxFit.cover,
+
                                            ),
                                       ),
                                     ),
@@ -119,13 +126,15 @@ class EditPofilePage extends StatelessWidget {
                             ),
                         Positioned(
                             top: 5,
-                            right: 5,
-                            child:Icon(Icons.edit,size: 10,color: AppColors.primaryColor,))
+                            right: 2,
+                            child:CircleAvatar(
+                                radius: 10,
+                                child: Icon(Icons.edit,size: 15.r,color: AppColors.colorButton,)))
                           ],
                         ),
                       ),
-                      KText(text: AppCache().userInfo?.name,fontSize: 16.sp,fontWeight: FontWeight.bold,),
-                      KText(text: AppCache().userInfo?.phoneNumber,fontSize: 12,),
+                      RFText(text: AppCache().userInfo?.name,fontSize: 16.sp,fontWeight: FontWeight.bold,),
+                      RFText(text: AppCache().userInfo?.phoneNumber,fontSize: 12,),
 
                     ],
                   ),
@@ -149,7 +158,7 @@ class EditPofilePage extends StatelessWidget {
                       child: SizedBox(
                           height: 30.h,
                           child: CircularProgressIndicator()),
-                    ) : RFButton(text: "Update",
+                    ) : CustomButton(text: "Update",
                       onPressed: () {
                         if (nameController.text.isNotEmpty &&
                             emailController.text.isNotEmpty
@@ -186,7 +195,7 @@ class EditPofilePage extends StatelessWidget {
        child: Column(
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [
-           RFText(text: name,color: Colors.grey, isMandatory: false,),
+           RFRichText(text: name,color: Colors.grey, isMandatory: false,),
            SizedBox(height: 10,),
            Container(
              decoration: RFBoxDecoration(border: Border.all(color: Colors.white,style: BorderStyle.solid,width: 2)).build(),

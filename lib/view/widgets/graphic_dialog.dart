@@ -73,7 +73,7 @@ class RFGraphicalDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               okText != null && okText!.isNotEmpty
-                  ? RFButton(
+                  ? CustomButton(
                 buttonRadius: 8.r,
                 text: okText!,
                 buttonColor: AppColors.primaryColor,
@@ -88,7 +88,7 @@ class RFGraphicalDialog extends StatelessWidget {
                   ? Row(
                 children: [
                   SizedBox(width: 16.w),
-                  RFButton(
+                  CustomButton(
                     buttonRadius: 8.r,
                     text: cancelText!,
                     buttonColor: AppColors.primaryColor.withOpacity(0.8),

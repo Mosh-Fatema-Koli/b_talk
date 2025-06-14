@@ -73,7 +73,7 @@ class LoginController extends GetxController{
       await _miscController.showGraphicalDialog(
           context: context,
           cancelable: false,
-          imagePath: 'assets/images/exit.png',
+          imagePath: 'assets/exit.png',
           title: 'Logout',
           subTitle: 'Do you want to logout now?',
           okText: 'Yes',

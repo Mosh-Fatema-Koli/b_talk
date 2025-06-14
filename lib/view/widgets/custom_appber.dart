@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import 'k_text.dart';
+import 'RFText.dart';
 
 customAppBar({required Function() ontap,required String Text}) {
   return SafeArea(
@@ -50,7 +50,7 @@ customAppBar({required Function() ontap,required String Text}) {
           ),
         ),
         Center(
-          child: KText(
+          child: RFText(
             text: Text,
             fontWeight: FontWeight.bold,
             fontSize: 16.sp,
